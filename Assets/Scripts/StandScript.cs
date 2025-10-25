@@ -5,6 +5,7 @@ public class StandScript : MonoBehaviour
     private StandSlot[] slots;
     private Transform player;
     private float interactDistance = 2.5f;
+    public ParticleSystem puff;
 
     void Start()
     {
@@ -64,6 +65,7 @@ public class StandScript : MonoBehaviour
             {
                 if (success)
                 {
+                    puff.Play();
                     targetSlot.PlaceItem(heldItem);
                     GameManager.instance.ClearSlot();
                     Debug.Log("QTE başarıyla tamamlandı! Item yerleştirildi ✅");
