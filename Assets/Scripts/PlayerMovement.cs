@@ -6,7 +6,6 @@ public class PlayerMovement : MonoBehaviour
     public static PlayerMovement instance;
     public float moveSpeed = 3f;
     private Rigidbody2D rb;
-    //private Animator anim;
     private Vector2 movement;
     public GameObject torch;
 
@@ -14,12 +13,11 @@ public class PlayerMovement : MonoBehaviour
     {
         instance = this;
         rb = GetComponent<Rigidbody2D>();
-     //   anim = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             torch.SetActive(!torch.activeSelf);
         }
@@ -27,9 +25,15 @@ public class PlayerMovement : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
-        //anim.SetFloat("Horizontal", movement.x);
-       // anim.SetFloat("Vertical", movement.y);
-        //anim.SetFloat("Speed", movement.sqrMagnitude);
+        // 🔹 Sağ / Sol yönüne göre karakteri çevir
+        if (movement.x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (movement.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
     }
 
     private void FixedUpdate()

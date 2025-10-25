@@ -19,9 +19,11 @@ public class StandScript : MonoBehaviour
         if (player == null) return;
 
         float distance = Vector2.Distance(player.position, transform.position);
+        if (distance <= interactDistance)   PlayerMovement.instance.torch.SetActive(false);
         if (distance <= interactDistance && Input.GetKeyDown(KeyCode.E))
         {
             TryPlaceItem();
+          
         }
     }
 

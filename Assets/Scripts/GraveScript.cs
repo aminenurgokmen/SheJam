@@ -3,7 +3,7 @@ using UnityEngine;
 public class GraveScript : MonoBehaviour
 {
     public GameObject hiddenObject;
-    private float interactDistance = 2f;
+    private float interactDistance = 4f;
 
     private Transform player;
     private PlayerMovement playerMovement;
