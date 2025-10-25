@@ -22,16 +22,4 @@ public class StandSlot : MonoBehaviour
 
         Debug.Log($"Item {item.name} doğru yere yerleştirildi! ✅");
     }
-
-    public void RejectItem(GameObject item)
-    {
-        if (item == null) return;
-
-        BodyPart data = item.GetComponent<BodyPart>();
-        if (data != null)
-        {
-            Debug.Log($"Item {item.name} yanlış yere getirildi, geri dönüyor...");
-            data.ReturnToOrigin();
-        }
-    }
 }

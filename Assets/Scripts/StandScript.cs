@@ -58,12 +58,28 @@ public class StandScript : MonoBehaviour
 
         // 🔹 2. Doğru slotu bul ve yerleştir
         StandSlot targetSlot = FindSlotById(id);
-        if (targetSlot != null && targetSlot.CanPlaceItem(id))
+      if (targetSlot != null && targetSlot.CanPlaceItem(id))
+{
+    // QTE başlat
+    QuickTimeEvent.instance.StartQTE(success =>
+    {
+        if (success)
         {
             targetSlot.PlaceItem(heldItem);
             GameManager.instance.ClearSlot();
-            return;
+            Debug.Log("QTE başarıyla tamamlandı! Item yerleştirildi ✅");
         }
+        else
+        {
+            Debug.Log("QTE başarısız ❌ Item geri dönüyor.");
+            data.ReturnToOrigin();
+            GameManager.instance.ClearSlot();
+        }
+    });
+    return;
+}
+
+
 
         // 🔹 3. Eğer uygun değilse, geri gönder
         Debug.Log($"Item {id} için uygun slot yok veya dolu.");

@@ -3,7 +3,7 @@ using UnityEngine;
 public class GraveScript : MonoBehaviour
 {
     public GameObject hiddenObject;
-    private float interactDistance = 3f;
+    private float interactDistance = 2f;
 
     private Transform player;
     private PlayerMovement playerMovement;
@@ -66,11 +66,5 @@ public class GraveScript : MonoBehaviour
 
         GameManager.instance.AddToSlot(hiddenObject);
         hiddenObject = null; // mezardaki referans sıfırlanır
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, interactDistance);
     }
 }
