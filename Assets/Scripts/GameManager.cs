@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -6,40 +7,71 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("Inventory UI")]
-    public Image slotImage; // UI Image referansı
+    public Image slotImage;
     private bool slotFull = false;
+
+    [Header("Slotta tutulan item referansı")]
+    public GameObject heldItem;
 
     private void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
     }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            //restart scene
+            SceneManager.LoadScene(0);
+        }
+    }
 
     public void AddToSlot(GameObject item)
     {
-        if (slotFull || item == null) return;
+        // Eğer önceki item standa bırakılmışsa veya slot temizlenmişse tekrar kullanılabilir
+        if (item == null) return;
+
+        // Eğer önceki item zaten yoksa, slot boş sayılır
+        if (slotFull && heldItem == null)
+            slotFull = false;
+
+        if (slotFull)
+        {
+            Debug.Log("Slot dolu, yeni item eklenemiyor.");
+            return;
+        }
 
         SpriteRenderer sr = item.GetComponent<SpriteRenderer>();
         if (sr != null && slotImage != null)
         {
             slotImage.sprite = sr.sprite;
-           // slotImage.color = Color.white; // görünür yap
-            slotFull = true;
-            Debug.Log("Item slot'a eklendi: " + item.name);
+           slotImage.color = Color.white;
         }
 
-        Destroy(item);
+        heldItem = item;
+        slotFull = true;
+
+        Debug.Log("Item slot'a eklendi: " + item.name);
     }
 
-    public bool IsSlotEmpty()
-    {
-        return !slotFull;
-    }
+    public bool IsSlotEmpty() => !slotFull;
+
+    public GameObject GetHeldItem() => heldItem;
 
     public void ClearSlot()
     {
-        slotImage.sprite = null;
-        slotImage.color = new Color(1, 1, 1, 0); // şeffaf
+        // UI temizle
+        if (slotImage != null)
+        {
+            slotImage.sprite = null;
+        //    slotImage.color = new Color(1, 1, 1, 0);
+        }
+
+        // item referansını da sıfırla
+        heldItem = null;
         slotFull = false;
+
+        Debug.Log("Slot temizlendi.");
     }
 }

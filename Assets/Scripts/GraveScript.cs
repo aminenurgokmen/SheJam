@@ -15,18 +15,23 @@ public class GraveScript : MonoBehaviour
             player = playerMovement.transform;
 
         if (hiddenObject != null)
+        {
             hiddenObject.SetActive(false);
+
+            // ItemData varsa orijinal konumunu hatırlasın
+            BodyPart data = hiddenObject.GetComponent<BodyPart>();
+            if (data != null)
+                data.RememberOrigin(transform);
+        }
     }
 
     void Update()
     {
-        // Eğer zaten hiddenObject yoksa (önceden alınmışsa), hiçbir şey yapma
         if (hiddenObject == null || playerMovement == null || player == null)
             return;
 
         float distance = Vector2.Distance(player.position, transform.position);
 
-        // Fener kapalıysa objeyi gizle
         if (!playerMovement.torch.activeSelf)
         {
             if (hiddenObject.activeSelf)
@@ -34,23 +39,16 @@ public class GraveScript : MonoBehaviour
             return;
         }
 
-        // Yakınsa göster, uzaksa gizle
         if (distance <= interactDistance)
         {
             if (!hiddenObject.activeSelf)
                 hiddenObject.SetActive(true);
 
-            // E'ye basılırsa, slot boşsa ve obje aktifse pickle
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (hiddenObject.activeSelf && GameManager.instance.IsSlotEmpty())
                 {
-                    GameManager.instance.AddToSlot(hiddenObject);
-                    hiddenObject = null; // bir daha alınamaz
-                }
-                else if (!GameManager.instance.IsSlotEmpty())
-                {
-                    Debug.Log("Slot dolu! Başka eşya alınamaz.");
+                    PickUpItem();
                 }
             }
         }
@@ -59,6 +57,15 @@ public class GraveScript : MonoBehaviour
             if (hiddenObject.activeSelf)
                 hiddenObject.SetActive(false);
         }
+    }
+
+    private void PickUpItem()
+    {
+        hiddenObject.transform.SetParent(player);
+        hiddenObject.transform.localPosition = new Vector3(0.5f, 0, 0);
+
+        GameManager.instance.AddToSlot(hiddenObject);
+        hiddenObject = null; // mezardaki referans sıfırlanır
     }
 
     private void OnDrawGizmosSelected()
