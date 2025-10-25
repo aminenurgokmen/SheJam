@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.E))
         {
-           Dig();
+          PickObject();
         }
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
@@ -41,8 +41,9 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
-    void Dig()
+    void PickObject()
     {
-        // Kazma işlemi burada gerçekleştirilecek
+        // Eşya toplama işlemi burada gerçekleştirilecek
     }
+
 }
