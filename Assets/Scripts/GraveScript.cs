@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GraveScript : MonoBehaviour
 {
-    public GameObject hiddenObject; 
+    public GameObject hiddenObject;
     private float interactDistance = 3f;
 
     private Transform player;
@@ -10,23 +10,23 @@ public class GraveScript : MonoBehaviour
 
     void Start()
     {
-        // Player’ı sahnede bul
         playerMovement = FindObjectOfType<PlayerMovement>();
         if (playerMovement != null)
             player = playerMovement.transform;
 
-        // Obje başlangıçta kapalı olsun
         if (hiddenObject != null)
             hiddenObject.SetActive(false);
     }
 
     void Update()
     {
-        if (player == null || playerMovement == null) return;
+        // Eğer zaten hiddenObject yoksa (önceden alınmışsa), hiçbir şey yapma
+        if (hiddenObject == null || playerMovement == null || player == null)
+            return;
 
         float distance = Vector2.Distance(player.position, transform.position);
 
-        // Işık kapalıysa hiçbir şey yapma
+        // Fener kapalıysa objeyi gizle
         if (!playerMovement.torch.activeSelf)
         {
             if (hiddenObject.activeSelf)
@@ -34,11 +34,25 @@ public class GraveScript : MonoBehaviour
             return;
         }
 
-        // Işık açıksa ve yakınsa aç, uzaksa kapat
+        // Yakınsa göster, uzaksa gizle
         if (distance <= interactDistance)
         {
             if (!hiddenObject.activeSelf)
                 hiddenObject.SetActive(true);
+
+            // E'ye basılırsa, slot boşsa ve obje aktifse pickle
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (hiddenObject.activeSelf && GameManager.instance.IsSlotEmpty())
+                {
+                    GameManager.instance.AddToSlot(hiddenObject);
+                    hiddenObject = null; // bir daha alınamaz
+                }
+                else if (!GameManager.instance.IsSlotEmpty())
+                {
+                    Debug.Log("Slot dolu! Başka eşya alınamaz.");
+                }
+            }
         }
         else
         {
@@ -47,7 +61,6 @@ public class GraveScript : MonoBehaviour
         }
     }
 
-    // Sahne içinde mesafeyi görsel olarak görmek istersen
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;

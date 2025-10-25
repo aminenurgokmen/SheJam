@@ -5,7 +5,6 @@ public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement instance;
     public float moveSpeed = 3f;
-
     private Rigidbody2D rb;
     private Animator anim;
     private Vector2 movement;
@@ -24,14 +23,10 @@ public class PlayerMovement : MonoBehaviour
         {
             torch.SetActive(!torch.activeSelf);
         }
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-          PickObject();
-        }
+
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
-        // animasyon parametreleri
         anim.SetFloat("Horizontal", movement.x);
         anim.SetFloat("Vertical", movement.y);
         anim.SetFloat("Speed", movement.sqrMagnitude);
@@ -41,9 +36,4 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
-    void PickObject()
-    {
-        // Eşya toplama işlemi burada gerçekleştirilecek
-    }
-
 }
