@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [Header("Inventory UI")]
     public Image slotImage;
     private bool slotFull = false;
+    public Sprite nullSlot;
 
     [Header("Slotta tutulan item referansı")]
     public GameObject heldItem;
@@ -62,11 +63,10 @@ public class GameManager : MonoBehaviour
     public void ClearSlot()
     {
         // UI temizle
-        if (slotImage != null)
-        {
-            slotImage.sprite = null;
+       
+            slotImage.sprite = nullSlot;
         //    slotImage.color = new Color(1, 1, 1, 0);
-        }
+        
 
         // item referansını da sıfırla
         heldItem = null;

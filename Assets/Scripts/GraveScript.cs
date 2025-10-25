@@ -62,7 +62,7 @@ public class GraveScript : MonoBehaviour
     private void PickUpItem()
     {
         hiddenObject.transform.SetParent(player);
-        hiddenObject.transform.localPosition = new Vector3(0.5f, 0, 0);
+        hiddenObject.transform.localPosition = new Vector3(0f, -.6f, 0);
 
         GameManager.instance.AddToSlot(hiddenObject);
         hiddenObject = null; // mezardaki referans sıfırlanır

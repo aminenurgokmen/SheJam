@@ -4,7 +4,7 @@ public class StandScript : MonoBehaviour
 {
     private StandSlot[] slots;
     private Transform player;
-    private float interactDistance = 2.5f;
+    private float interactDistance = 5f;
     public ParticleSystem puff;
 
     void Start()

@@ -67,7 +67,7 @@ public class BodyPart : MonoBehaviour
         // Player itemi eline alıyor
         GameManager.instance.AddToSlot(gameObject);
         transform.SetParent(player);
-        transform.localPosition = new Vector3(0.5f, 0, 0);
+        transform.localPosition = new Vector3(0f, -.6f, 0);
         transform.rotation = originalRotation;
         canBePickedUp = false;
 
@@ -75,8 +75,7 @@ public class BodyPart : MonoBehaviour
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null) Destroy(rb);
 
-        Collider2D col = GetComponent<Collider2D>();
-        if (col != null) Destroy(col);
+        GetComponent<Collider2D>().enabled = false;
 
         Debug.Log($"{name} toplandı! ✅");
     }
