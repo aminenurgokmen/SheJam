@@ -3,6 +3,7 @@ using UnityEngine;
 public class GraveScript : MonoBehaviour
 {
     public GameObject hiddenObject;
+    public GameObject hiddenGrave;
     private float interactDistance = 4f;
 
     private Transform player;
@@ -23,6 +24,10 @@ public class GraveScript : MonoBehaviour
             if (data != null)
                 data.RememberOrigin(transform);
         }
+        if (hiddenGrave != null)
+        {
+            hiddenGrave.SetActive(false);
+        }
     }
 
     void Update()
@@ -36,6 +41,11 @@ public class GraveScript : MonoBehaviour
         {
             if (hiddenObject.activeSelf)
                 hiddenObject.SetActive(false);
+
+            if (hiddenGrave != null && hiddenGrave.activeSelf)
+            {
+                hiddenGrave.SetActive(false);
+            }
             return;
         }
 
@@ -43,8 +53,12 @@ public class GraveScript : MonoBehaviour
         {
             if (!hiddenObject.activeSelf)
                 hiddenObject.SetActive(true);
+            if (hiddenGrave != null && !hiddenGrave.activeSelf)
+            {
+                hiddenGrave.SetActive(true);
+            }
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && hiddenObject.GetComponent<BodyPart>().id != 99)
             {
                 if (hiddenObject.activeSelf && GameManager.instance.IsSlotEmpty())
                 {
@@ -56,6 +70,10 @@ public class GraveScript : MonoBehaviour
         {
             if (hiddenObject.activeSelf)
                 hiddenObject.SetActive(false);
+            if (hiddenGrave != null && hiddenGrave.activeSelf)
+            {
+                hiddenGrave.SetActive(false);
+            }
         }
     }
 
