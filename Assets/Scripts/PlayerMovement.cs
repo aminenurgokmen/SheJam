@@ -7,12 +7,21 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement;
     public Animator animator;
     public GameObject torch;
+    public ParticleSystem puff;
 
     private void Awake()
     {
         instance = this;
         rb = GetComponent<Rigidbody2D>();
 
+    }
+    public void End()
+    {
+        transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(1).gameObject.SetActive(true);
+        transform.GetChild(1).GetComponent<Animator>().SetTrigger("End");
+
+        puff.Play();
     }
 
     private void Update()

@@ -27,6 +27,10 @@ public class StandScript : MonoBehaviour
             TryPlaceItem();
 
         }
+       //if (Input.GetKeyDown(KeyCode.I))
+       //{
+       //    PlayerMovement.instance.End();
+       //}
     }
 
     private void TryPlaceItem()
@@ -83,6 +87,8 @@ public class StandScript : MonoBehaviour
                         if (completeEffect != null)
                             completeEffect.Play();
                         GetComponentInChildren<AudioSource>().Play();
+                        PlayerMovement.instance.End();
+
                     }
                 }
                 else

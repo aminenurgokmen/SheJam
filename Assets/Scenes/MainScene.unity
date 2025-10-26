@@ -19348,6 +19348,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3604017339551570346, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604017339551570346, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3604017339551570346, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
       propertyPath: m_SortingOrder
       value: 10
       objectReference: {fileID: 0}
@@ -19358,6 +19366,26 @@ PrefabInstance:
     - target: {fileID: 3972902887748250252, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495782501072821892, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.870869
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495782501072821892, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.870869
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495782501072821892, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.870869
+      objectReference: {fileID: 0}
+    - target: {fileID: 4495782501072821892, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 4860183699909477244, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.16
       objectReference: {fileID: 0}
     - target: {fileID: 5801332694457567939, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
       propertyPath: m_IsActive
@@ -19430,6 +19458,14 @@ PrefabInstance:
     - target: {fileID: 8228315355634480072, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
       propertyPath: moveSpeed
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8411769117604286883, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8775028408751074084, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8788385092542885452, guid: 7221f03002ee49a44871a34d9ac7d29c, type: 3}
