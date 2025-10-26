@@ -8,6 +8,8 @@ public class GraveScript : MonoBehaviour
 
     private Transform player;
     private PlayerMovement playerMovement;
+    public GameObject tutorialHint;
+
 
     void Start()
     {
@@ -38,7 +40,10 @@ public class GraveScript : MonoBehaviour
         float distance = Vector2.Distance(player.position, transform.position);
 
         if (!playerMovement.torch.activeSelf)
+
         {
+            if (tutorialHint != null)
+                tutorialHint.SetActive(false);
             if (hiddenObject.activeSelf)
                 hiddenObject.SetActive(false);
 
@@ -46,6 +51,7 @@ public class GraveScript : MonoBehaviour
             {
                 hiddenGrave.SetActive(false);
             }
+
             return;
         }
 
@@ -58,6 +64,7 @@ public class GraveScript : MonoBehaviour
                 hiddenGrave.SetActive(true);
             }
 
+
             if (Input.GetKeyDown(KeyCode.E) && hiddenObject.GetComponent<BodyPart>().id != 99)
             {
                 if (hiddenObject.activeSelf && GameManager.instance.IsSlotEmpty())
@@ -65,6 +72,9 @@ public class GraveScript : MonoBehaviour
                     PickUpItem();
                 }
             }
+            if (tutorialHint != null)
+                tutorialHint.SetActive(true);
+
         }
         else
         {
@@ -74,6 +84,9 @@ public class GraveScript : MonoBehaviour
             {
                 hiddenGrave.SetActive(false);
             }
+            if (tutorialHint != null)
+                tutorialHint.SetActive(false);
+
         }
     }
 

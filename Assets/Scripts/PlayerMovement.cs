@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 movement;
     public GameObject torch;
-
     private void Awake()
     {
         instance = this;
@@ -20,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             torch.SetActive(!torch.activeSelf);
+           // tutorialHint.SetActive(true);
         }
 
         movement.x = Input.GetAxisRaw("Horizontal");

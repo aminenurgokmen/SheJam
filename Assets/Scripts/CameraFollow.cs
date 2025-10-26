@@ -44,13 +44,14 @@ public class CameraFollow : MonoBehaviour
         if (stand != null)
         {
             float distanceToStand = Vector2.Distance(target.position, stand.position);
-            targetSize = distanceToStand <= 8f ? minSize : maxSize;
-            if (distanceToStand <= 8f)
+            Debug.Log("distanceToStand: " + distanceToStand);
+            targetSize = distanceToStand <= 9f ? minSize : maxSize;
+            if (distanceToStand <= 9f)
             {
-                float targetAlpha = Mathf.InverseLerp(2.5f, 0, distanceToStand);
+                float targetAlpha = Mathf.InverseLerp(2f, 0, distanceToStand);
                 SetHomeAlpha(targetAlpha);
             }
-            else if (distanceToStand > 8f)
+            else if (distanceToStand > 9f)
             {
                 float targetAlpha = Mathf.InverseLerp(0,2.5f, distanceToStand);
                 SetHomeAlpha(targetAlpha);

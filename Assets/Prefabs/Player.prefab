@@ -251,6 +251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   torch: {fileID: 7440039823294640305}
+  tutorialHint: {fileID: 0}
 --- !u!95 &8788385092542885452
 Animator:
   serializedVersion: 5

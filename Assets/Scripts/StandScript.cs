@@ -75,29 +75,29 @@ public class StandScript : MonoBehaviour
                     UIManager.instance.NextDialog();
                     Debug.Log("QTE başarıyla tamamlandı! Item yerleştirildi ✅");
                 }
-              else
-{
-    Debug.Log("QTE başarısız ❌ Item yukarı çıkıp smooth olarak düşüyor!");
+                else
+                {
+                    Debug.Log("QTE başarısız ❌ Item yukarı çıkıp smooth olarak düşüyor!");
 
-    // 🔹 Physics kaldır
-    if (heldItem.TryGetComponent<Rigidbody2D>(out var rb)) Destroy(rb);
-    if (heldItem.TryGetComponent<Collider2D>(out var col)) Destroy(col);
+                    // 🔹 Physics kaldır
+                    if (heldItem.TryGetComponent<Rigidbody2D>(out var rb)) Destroy(rb);
+                    if (heldItem.TryGetComponent<Collider2D>(out var col)) Destroy(col);
 
-    heldItem.transform.SetParent(null);
+                    heldItem.transform.SetParent(null);
 
-    // 🔹 Sprite görünür hale getir
-    SpriteRenderer sr = heldItem.GetComponent<SpriteRenderer>();
-    if (sr != null)
-        sr.enabled = true;
+                    // 🔹 Sprite görünür hale getir
+                    SpriteRenderer sr = heldItem.GetComponent<SpriteRenderer>();
+                    if (sr != null)
+                        sr.enabled = true;
 
-    // 🔹 DropPoint belirlenmemişse fallback olarak stand pozisyonunu kullan
-    Vector3 targetPos = dropPoint != null ? dropPoint.position : transform.position;
+                    // 🔹 DropPoint belirlenmemişse fallback olarak stand pozisyonunu kullan
+                    Vector3 targetPos = dropPoint != null ? dropPoint.position : transform.position;
 
-    // 🔹 Smooth yay şeklinde düşüş başlat
-    PlayerMovement.instance.StartCoroutine(SmoothArcDrop(heldItem.transform, targetPos, 1.2f, 1.5f));
+                    // 🔹 Smooth yay şeklinde düşüş başlat
+                    PlayerMovement.instance.StartCoroutine(SmoothArcDrop(heldItem.transform, targetPos, 1.2f, 1.5f));
 
-    GameManager.instance.ClearSlot();
-}
+                    GameManager.instance.ClearSlot();
+                }
 
             });
             return;
@@ -108,53 +108,35 @@ public class StandScript : MonoBehaviour
         data.ReturnToOrigin();
         GameManager.instance.ClearSlot();
     }
-  private System.Collections.IEnumerator SmoothArcDrop(Transform item, Vector3 targetPos, float duration, float arcHeight)
-{
-    Vector3 startPos = item.position;
-    float elapsed = 0f;
-
-    while (elapsed < duration)
+    private System.Collections.IEnumerator SmoothArcDrop(Transform item, Vector3 targetPos, float duration, float arcHeight)
     {
-        elapsed += Time.deltaTime;
-        float t = Mathf.Clamp01(elapsed / duration);
+        Vector3 startPos = item.position;
+        float elapsed = 0f;
 
-        // Y ekseninde parabolik hareket (yukarı çıkıp sonra aşağı)
-        float height = 4 * arcHeight * t * (1 - t);
-        Vector3 midPos = Vector3.Lerp(startPos, targetPos, t);
-        midPos.y += height; // ekstra yükseklik ekle
-
-        item.position = midPos;
-        yield return null;
-    }
-
-    item.position = targetPos;
-
-    // 🔹 Düşüş tamamlanınca tekrar toplanabilir olsun
-    BodyPart bp = item.GetComponent<BodyPart>();
-    if (bp != null)
-        bp.MakePickable();
-
-    Debug.Log($"{item.name} yay çizerek drop noktasına ulaştı 🎯");
-}
-
-
-    private System.Collections.IEnumerator StopFallingAfterDelay(Rigidbody2D rb)
-    {
-        yield return new WaitForSeconds(.8f);
-
-        if (rb != null)
+        while (elapsed < duration)
         {
-            rb.velocity = Vector2.zero;
-            rb.angularVelocity = 0f;
-            rb.gravityScale = 0f;
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
 
-            // 🔹 Yere düştü, artık toplanabilir
-            BodyPart bp = rb.GetComponent<BodyPart>();
-            if (bp != null)
-                bp.MakePickable();
+            // Y ekseninde parabolik hareket (yukarı çıkıp sonra aşağı)
+            float height = 4 * arcHeight * t * (1 - t);
+            Vector3 midPos = Vector3.Lerp(startPos, targetPos, t);
+            midPos.y += height; // ekstra yükseklik ekle
+
+            item.position = midPos;
+            yield return null;
         }
+
+        item.position = targetPos;
+
+        // 🔹 Düşüş tamamlanınca tekrar toplanabilir olsun
+        BodyPart bp = item.GetComponent<BodyPart>();
+        if (bp != null)
+            bp.MakePickable();
+
+        Debug.Log($"{item.name} yay çizerek drop noktasına ulaştı 🎯");
     }
+
 
     private StandSlot FindSlotById(int id)
     {

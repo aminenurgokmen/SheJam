@@ -88,4 +88,13 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(typeSpeed);
         }
     }
+    public void Play()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+
+    }
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }
