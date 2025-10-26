@@ -1077,7 +1077,8 @@ MonoBehaviour:
   - speaker: The Spirit
     side: 0
     text: "Find my pieces. My hands, my heart.. It\u2019s all in these lands. Take
-      this light. You can see beyond the graves with it.\r"
+      this light. You can see beyond the graves with it.\n( Press E to turn on the
+      light)\r"
   nextSceneName: NextScene
   cam: {fileID: 362728821}
 --- !u!4 &950302113
