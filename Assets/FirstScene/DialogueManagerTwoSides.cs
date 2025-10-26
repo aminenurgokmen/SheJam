@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement; // 🎬 Sahne geçişi için eklendi
+using UnityEngine.SceneManagement;
 
 public class DialogueManagerTwoSides : MonoBehaviour
 {
@@ -21,12 +21,12 @@ public class DialogueManagerTwoSides : MonoBehaviour
     [Header("Ayarlar")]
     public KeyCode advanceKey = KeyCode.Space;
     public float charsPerSecond = 45f;
-    public float startDelay = 3f; // 💬 İlk diyalog gecikmesi
-    float endSceneDelay = 1f; // 🎬 Son sahne geçiş gecikmesi
+    public float startDelay = 3f;
+    public float endSceneDelay = 1f;
 
     [Header("İçerik")]
     public List<DialogueEntry> lines = new List<DialogueEntry>();
-    public string nextSceneName = "MainScene"; // 💡 Hedef sahne ismi (Inspector'dan ayarlanabilir)
+    public string nextSceneName = "MainScene";
     public GameObject cam;
     int index = -1;
     bool isTyping = false;
@@ -39,12 +39,18 @@ public class DialogueManagerTwoSides : MonoBehaviour
     public GameObject torch;
     public GameObject activeTorch;
 
+    private int currentSceneIndex;
+    private bool autoMode = false;
+
     void Start()
     {
         if (leftBox) leftBox.SetActive(false);
         if (rightBox) rightBox.SetActive(false);
         if (leftContinueIcon) leftContinueIcon.SetActive(false);
         if (rightContinueIcon) rightContinueIcon.SetActive(false);
+
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (currentSceneIndex == 3) autoMode = true;
 
         if (lines != null && lines.Count > 0)
             StartCoroutine(DelayedStartDialogue());
@@ -64,6 +70,8 @@ public class DialogueManagerTwoSides : MonoBehaviour
 
     void Update()
     {
+        if (autoMode) return;
+
         if (activeBox == null || !activeBox.activeInHierarchy) return;
 
         if (Input.GetKeyDown(advanceKey))
@@ -88,9 +96,14 @@ public class DialogueManagerTwoSides : MonoBehaviour
         index++;
         if (index >= lines.Count)
         {
-            // 🎬 Diyalog bittiğinde sahne geçişini başlat
             StartCoroutine(EndDialogueAndChangeScene());
             return;
+        }
+
+        // ✅ Son satıra gelmeden bir önceki satırda "Zoom" animasyonu tetiklensin
+        if (index == lines.Count - 1 && cam != null)
+        {
+            cam.GetComponent<Animator>().SetTrigger("zoom");
         }
 
         var entry = lines[index];
@@ -146,6 +159,15 @@ public class DialogueManagerTwoSides : MonoBehaviour
         activeBody.text = full;
         isTyping = false;
         if (activeContinue) activeContinue.SetActive(true);
+
+        if (autoMode)
+            StartCoroutine(AutoAdvanceAfterDelay(3.5f));
+    }
+
+    IEnumerator AutoAdvanceAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        NextLine();
     }
 
     void FinishTypingInstant()
@@ -160,11 +182,21 @@ public class DialogueManagerTwoSides : MonoBehaviour
     {
         leftBox.SetActive(false);
         rightBox.SetActive(false);
-        cam.GetComponent<Animator>().SetTrigger("Viynet");
+
+        // 🎬 Diyalog bitince sahne geçiş animasyonu
+        if (cam != null)
+            cam.GetComponent<Animator>().SetTrigger("Viynet");
 
         Debug.Log("Diyalog bitti, sahne değişimi başlıyor...");
         yield return new WaitForSeconds(endSceneDelay);
-        SceneManager.LoadScene(2);
 
+        if (currentSceneIndex == 1)
+        {
+            SceneManager.LoadScene(2);
+        }
+        else
+        {
+            Debug.Log("Otomatik mod sahnesinde sahne geçişi yapılmadı.");
+        }
     }
 }
