@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
         "Without my legs, I cannot walk… not in this world, nor in dreams.",
         "My head… my memories were buried with it beneath the earth. Bring it back, Yareth I want to remember who I am.",
         "Without my eyes, all I saw was darkness.Now I want to see, Yareth... the world, you… and the truth.",
-        "Thank you darling!"
+        "At last... everything’s in place. Even silence is complete."
     };
 
     private Coroutine typingCoroutine;

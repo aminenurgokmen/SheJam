@@ -1075,31 +1075,10 @@ MonoBehaviour:
   lines:
   - speaker: The Spirit
     side: 0
-    text: "The living.. You can hear me, right? I\u2019ve been watching you for a
-      long time. \r"
-  - speaker: Yareth
-    side: 1
-    text: Wh-.. What is that? I thought I was all alone in this room. Who are you?
+    text: "You weren\u2019t speaking to me...\r\nYou were speaking to yourself.\r"
   - speaker: The Spirit
     side: 0
-    text: "No one is ever truly alone.\r\nMy voice travels with the wind\u2026 sometimes
-      it hides within the silence.\r"
-  - speaker: The Spirit
-    side: 0
-    text: "I have come to ask you for something\u2026 that\u2019s why I\u2019m here.\r\nI
-      dream of becoming flesh and bone.\r\nHelp me, and in return\u2026 you will
-      find the answer you\u2019ve been seeking.\r\r"
-  - speaker: Yareth
-    side: 1
-    text: "Flesh and bone... you mean you want a body?\r\r"
-  - speaker: The Spirit
-    side: 0
-    text: "Yes.. but it won\u2019t be my journey alone but yours too.\r\r"
-  - speaker: The Spirit
-    side: 0
-    text: "Find my pieces. My hands, my heart.. It\u2019s all in these lands. Take
-      this light. You can see beyond the graves with it.\n( Press E to turn on the
-      light)\r"
+    text: "Good...\r\nBecause now, the silence is over.\r\nYou\u2019re alive again.\r"
   nextSceneName: NextScene
   cam: {fileID: 362728821}
   torch: {fileID: 2005400362}
