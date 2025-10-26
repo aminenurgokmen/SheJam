@@ -85,7 +85,7 @@ public class StandScript : MonoBehaviour
                         GetComponentInChildren<AudioSource>().Play();
 
                         // 🎬 2 saniye gecikmeli sahne geçişi
-                        StartCoroutine(LoadNextSceneWithDelay(2f));
+                        StartCoroutine(LoadNextSceneWithDelay(5f));
                     }
                 }
                 else
