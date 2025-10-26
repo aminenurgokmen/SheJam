@@ -251,6 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
+  animator: {fileID: 2379703370126004743}
   torch: {fileID: 7440039823294640305}
 --- !u!95 &8788385092542885452
 Animator:

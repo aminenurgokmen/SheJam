@@ -20,6 +20,7 @@ public class DialogueManagerTwoSides : MonoBehaviour
     [Header("Ayarlar")]
     public KeyCode advanceKey = KeyCode.Space;
     public float charsPerSecond = 45f;
+    public float startDelay = 3f; // 💡 3 saniye bekleme süresi
 
     [Header("İçerik")]
     public List<DialogueEntry> lines = new List<DialogueEntry>();
@@ -28,19 +29,27 @@ public class DialogueManagerTwoSides : MonoBehaviour
     bool isTyping = false;
     string currentFullText = "";
     Coroutine typingCo;
-    // aktif hedef UI referansları
+
     TMP_Text activeName, activeBody;
     GameObject activeBox, activeContinue;
 
     void Start()
     {
-        // ikonları kapat
+        // Başlangıçta her şeyi kapat
+        if (leftBox) leftBox.SetActive(false);
+        if (rightBox) rightBox.SetActive(false);
         if (leftContinueIcon) leftContinueIcon.SetActive(false);
         if (rightContinueIcon) rightContinueIcon.SetActive(false);
 
-        // İstersen otomatik başlat
+        // 💬 Diyaloglar varsa 3 saniye sonra başlat
         if (lines != null && lines.Count > 0)
-            StartDialogue();
+            StartCoroutine(DelayedStartDialogue());
+    }
+
+    IEnumerator DelayedStartDialogue()
+    {
+        yield return new WaitForSeconds(startDelay);
+        StartDialogue();
     }
 
     public void StartDialogue()
@@ -51,7 +60,6 @@ public class DialogueManagerTwoSides : MonoBehaviour
 
     void Update()
     {
-        // aktif kutu yoksa dinleme
         if (activeBox == null || !activeBox.activeInHierarchy) return;
 
         if (Input.GetKeyDown(advanceKey))
@@ -63,7 +71,6 @@ public class DialogueManagerTwoSides : MonoBehaviour
 
     void NextLine()
     {
-        // ikonları kapat
         if (leftContinueIcon) leftContinueIcon.SetActive(false);
         if (rightContinueIcon) rightContinueIcon.SetActive(false);
 
@@ -75,15 +82,11 @@ public class DialogueManagerTwoSides : MonoBehaviour
         }
 
         var entry = lines[index];
-
-        // Hangi taraf konuşuyor?
         bool leftSpeaking = entry.side == DialogueSide.Left;
 
-        // Göster/Gizle
         leftBox.SetActive(leftSpeaking);
         rightBox.SetActive(!leftSpeaking);
 
-        // Aktif UI referanslarını ata
         if (leftSpeaking)
         {
             activeBox = leftBox;
@@ -99,12 +102,10 @@ public class DialogueManagerTwoSides : MonoBehaviour
             activeContinue = rightContinueIcon;
         }
 
-        // Metinleri yükle
         activeName.text = entry.speaker;
         currentFullText = entry.text;
         activeBody.text = "";
 
-        // Diğer kutunun body metnini de temizleyelim (eski yazı kalmasın)
         if (leftSpeaking) rightBodyText.text = "";
         else leftBodyText.text = "";
 
