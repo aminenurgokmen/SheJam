@@ -19,11 +19,11 @@ public class StandScript : MonoBehaviour
         if (player == null) return;
 
         float distance = Vector2.Distance(player.position, transform.position);
-        if (distance <= interactDistance)   PlayerMovement.instance.torch.SetActive(false);
+        if (distance <= interactDistance) PlayerMovement.instance.torch.SetActive(false);
         if (distance <= interactDistance && Input.GetKeyDown(KeyCode.E))
         {
             TryPlaceItem();
-          
+
         }
     }
 
@@ -52,6 +52,7 @@ public class StandScript : MonoBehaviour
             if (previousSlot != null && !previousSlot.isOccupied)
             {
                 Debug.Log($"Slot {id} yerleşemez! Önce slot {i} doldurulmalı.");
+                UIManager.instance.ShowWrongPartMessage();
                 data.ReturnToOrigin();
                 GameManager.instance.ClearSlot();
                 return;
@@ -70,6 +71,7 @@ public class StandScript : MonoBehaviour
                     puff.Play();
                     targetSlot.PlaceItem(heldItem);
                     GameManager.instance.ClearSlot();
+                    UIManager.instance.NextDialog();
                     Debug.Log("QTE başarıyla tamamlandı! Item yerleştirildi ✅");
                 }
                 else
