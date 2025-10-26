@@ -7,6 +7,7 @@ public class StandScript : MonoBehaviour
     private float interactDistance = 5f;
     public ParticleSystem puff;
     public Transform dropPoint;
+    public ParticleSystem completeEffect;
 
     void Start()
     {
@@ -74,6 +75,12 @@ public class StandScript : MonoBehaviour
                     GameManager.instance.ClearSlot();
                     UIManager.instance.NextDialog();
                     Debug.Log("QTE başarıyla tamamlandı! Item yerleştirildi ✅");
+                    if (AreAllPartsPlaced())
+                    {
+                        Debug.Log("🎉 Tüm parçalar yerleştirildi!");
+                        if (completeEffect != null)
+                            completeEffect.Play();
+                    }
                 }
                 else
                 {
@@ -107,6 +114,15 @@ public class StandScript : MonoBehaviour
         Debug.Log($"Item {id} için uygun slot yok veya dolu.");
         data.ReturnToOrigin();
         GameManager.instance.ClearSlot();
+    }
+    private bool AreAllPartsPlaced()
+    {
+        foreach (var slot in slots)
+        {
+            if (!slot.isOccupied)
+                return false;
+        }
+        return true;
     }
     private System.Collections.IEnumerator SmoothArcDrop(Transform item, Vector3 targetPos, float duration, float arcHeight)
     {

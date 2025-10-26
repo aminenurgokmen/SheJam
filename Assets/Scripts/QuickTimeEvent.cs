@@ -40,16 +40,16 @@ public class QuickTimeEvent : MonoBehaviour
         float step = speed * Time.deltaTime;
         arrow.anchoredPosition += new Vector2(movingRight ? step : -step, 0);
 
-        // Sağ veya sol sınıra ulaştı mı?
-        if (arrow.anchoredPosition.x > panel.GetComponent<RectTransform>().rect.width / 2 - 10)
+        float halfWidth = panel.GetComponent<RectTransform>().rect.width / 2 - 10;
+
+        if (arrow.anchoredPosition.x > halfWidth)
             movingRight = false;
-        else if (arrow.anchoredPosition.x < -panel.GetComponent<RectTransform>().rect.width / 2 + 10)
+        else if (arrow.anchoredPosition.x < -halfWidth)
             movingRight = true;
     }
 
     void CheckSuccess()
     {
-        
         float arrowX = arrow.anchoredPosition.x;
         float successMin = successZone.anchoredPosition.x - successZone.rect.width / 2;
         float successMax = successZone.anchoredPosition.x + successZone.rect.width / 2;
@@ -69,5 +69,11 @@ public class QuickTimeEvent : MonoBehaviour
         movingRight = true;
         active = true;
         onResult = callback;
+
+        // 🎯 Başarı bölgesini rastgele konumlandır (-200 ile 230 arasında)
+        float randomX = Random.Range(-200f, 230f);
+        successZone.anchoredPosition = new Vector2(randomX, successZone.anchoredPosition.y);
+
+        Debug.Log($"Yeni success zone konumu: {randomX}");
     }
 }
