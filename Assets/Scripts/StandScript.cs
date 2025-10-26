@@ -6,6 +6,7 @@ public class StandScript : MonoBehaviour
     private Transform player;
     private float interactDistance = 5f;
     public ParticleSystem puff;
+    public Transform dropPoint;
 
     void Start()
     {
@@ -74,34 +75,29 @@ public class StandScript : MonoBehaviour
                     UIManager.instance.NextDialog();
                     Debug.Log("QTE başarıyla tamamlandı! Item yerleştirildi ✅");
                 }
-                else
-                {
-                    Debug.Log("QTE başarısız ❌ Item fırlatılıyor!");
+              else
+{
+    Debug.Log("QTE başarısız ❌ Item yukarı çıkıp smooth olarak düşüyor!");
 
-                    Rigidbody2D rb = heldItem.GetComponent<Rigidbody2D>();
-                    if (rb == null) rb = heldItem.AddComponent<Rigidbody2D>();
-                    rb.gravityScale = 1.5f;
-                    rb.constraints = RigidbodyConstraints2D.None;
+    // 🔹 Physics kaldır
+    if (heldItem.TryGetComponent<Rigidbody2D>(out var rb)) Destroy(rb);
+    if (heldItem.TryGetComponent<Collider2D>(out var col)) Destroy(col);
 
-                    if (heldItem.GetComponent<Collider2D>() == null)
-                    {
-                        var col = heldItem.AddComponent<CircleCollider2D>();
-                        col.radius = 0.2f;
-                    }
+    heldItem.transform.SetParent(null);
 
-                    heldItem.transform.SetParent(null);
+    // 🔹 Sprite görünür hale getir
+    SpriteRenderer sr = heldItem.GetComponent<SpriteRenderer>();
+    if (sr != null)
+        sr.enabled = true;
 
-                    Vector2 randomOffset = Random.insideUnitCircle.normalized * Random.Range(1.5f, 3f);
-                    Vector2 dropPosition = (Vector2)transform.position + randomOffset;
+    // 🔹 DropPoint belirlenmemişse fallback olarak stand pozisyonunu kullan
+    Vector3 targetPos = dropPoint != null ? dropPoint.position : transform.position;
 
-                    Vector2 forceDir = (dropPosition - (Vector2)transform.position).normalized;
-                    rb.AddForce(forceDir * Random.Range(3f, 6f), ForceMode2D.Impulse);
-                    rb.AddTorque(Random.Range(-5f, 5f), ForceMode2D.Impulse);
+    // 🔹 Smooth yay şeklinde düşüş başlat
+    PlayerMovement.instance.StartCoroutine(SmoothArcDrop(heldItem.transform, targetPos, 1.2f, 1.5f));
 
-                    PlayerMovement.instance.StartCoroutine(StopFallingAfterDelay(rb));
-
-                    GameManager.instance.ClearSlot();
-                }
+    GameManager.instance.ClearSlot();
+}
 
             });
             return;
@@ -112,6 +108,35 @@ public class StandScript : MonoBehaviour
         data.ReturnToOrigin();
         GameManager.instance.ClearSlot();
     }
+  private System.Collections.IEnumerator SmoothArcDrop(Transform item, Vector3 targetPos, float duration, float arcHeight)
+{
+    Vector3 startPos = item.position;
+    float elapsed = 0f;
+
+    while (elapsed < duration)
+    {
+        elapsed += Time.deltaTime;
+        float t = Mathf.Clamp01(elapsed / duration);
+
+        // Y ekseninde parabolik hareket (yukarı çıkıp sonra aşağı)
+        float height = 4 * arcHeight * t * (1 - t);
+        Vector3 midPos = Vector3.Lerp(startPos, targetPos, t);
+        midPos.y += height; // ekstra yükseklik ekle
+
+        item.position = midPos;
+        yield return null;
+    }
+
+    item.position = targetPos;
+
+    // 🔹 Düşüş tamamlanınca tekrar toplanabilir olsun
+    BodyPart bp = item.GetComponent<BodyPart>();
+    if (bp != null)
+        bp.MakePickable();
+
+    Debug.Log($"{item.name} yay çizerek drop noktasına ulaştı 🎯");
+}
+
 
     private System.Collections.IEnumerator StopFallingAfterDelay(Rigidbody2D rb)
     {

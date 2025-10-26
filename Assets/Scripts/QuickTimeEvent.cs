@@ -49,6 +49,7 @@ public class QuickTimeEvent : MonoBehaviour
 
     void CheckSuccess()
     {
+        
         float arrowX = arrow.anchoredPosition.x;
         float successMin = successZone.anchoredPosition.x - successZone.rect.width / 2;
         float successMax = successZone.anchoredPosition.x + successZone.rect.width / 2;

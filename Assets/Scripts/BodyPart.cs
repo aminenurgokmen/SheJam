@@ -46,7 +46,9 @@ public class BodyPart : MonoBehaviour
 
         transform.SetParent(originalParent);
         transform.position = originalPosition;
+        transform.rotation = originalRotation;
         gameObject.SetActive(false);
+      GetComponent<SpriteRenderer>().enabled = true;
 
         GraveScript grave = originalParent.GetComponent<GraveScript>();
         if (grave != null)
@@ -72,10 +74,10 @@ public class BodyPart : MonoBehaviour
         canBePickedUp = false;
 
         // Rigidbody ve Collider kaldır
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (rb != null) Destroy(rb);
+      //  Rigidbody2D rb = GetComponent<Rigidbody2D>();
+      //  if (rb != null) Destroy(rb);
 
-        GetComponent<Collider2D>().enabled = false;
+     //   GetComponent<Collider2D>().enabled = false;
 
         Debug.Log($"{name} toplandı! ✅");
     }

@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [Header("Inventory UI")]
-    public Image slotImage;
+    public Image slotImage;   // Ana slot image (parent)
     private bool slotFull = false;
     public Sprite nullSlot;
 
@@ -19,21 +19,19 @@ public class GameManager : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            //restart scene
             SceneManager.LoadScene(0);
         }
     }
 
     public void AddToSlot(GameObject item)
     {
-        // Eğer önceki item standa bırakılmışsa veya slot temizlenmişse tekrar kullanılabilir
         if (item == null) return;
 
-        // Eğer önceki item zaten yoksa, slot boş sayılır
         if (slotFull && heldItem == null)
             slotFull = false;
 
@@ -43,18 +41,26 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        SpriteRenderer sr = item.GetComponent<SpriteRenderer>();
-        if (sr != null && slotImage != null)
+        // 🔹 Önce tüm çocuk image'leri kapat
+        for (int i = 0; i < slotImage.transform.childCount; i++)
         {
-            slotImage.sprite = sr.sprite;
-           slotImage.color = Color.white;
-           
+            slotImage.transform.GetChild(i).gameObject.SetActive(false);
+        }
+
+        // 🔹 Item id'sine göre doğru image'ı aç
+        BodyPart bp = item.GetComponent<BodyPart>();
+        if (bp != null && bp.id >= 0 && bp.id < slotImage.transform.childCount)
+        {
+            slotImage.transform.GetChild(bp.id).gameObject.SetActive(true);
+            Debug.Log($"UI slotunda {bp.id} id'li item gösterildi.");
+        }
+        else
+        {
+            Debug.LogWarning("Item id geçersiz veya UI slotunda o kadar çocuk yok!");
         }
 
         heldItem = item;
         slotFull = true;
-
-        Debug.Log("Item slot'a eklendi: " + item.name);
     }
 
     public bool IsSlotEmpty() => !slotFull;
@@ -63,16 +69,18 @@ public class GameManager : MonoBehaviour
 
     public void ClearSlot()
     {
-        // UI temizle
-       
-            slotImage.sprite = nullSlot;
-        //    slotImage.color = new Color(1, 1, 1, 0);
-        
+        // 🔹 Tüm alt görselleri kapat
+        for (int i = 0; i < slotImage.transform.childCount; i++)
+        {
+            slotImage.transform.GetChild(i).gameObject.SetActive(false);
+        }
 
-        // item referansını da sıfırla
+        // 🔹 Boş slot sprite’ı geri koy
+        if (slotImage != null)
+            slotImage.sprite = nullSlot;
+
         heldItem = null;
         slotFull = false;
-
         Debug.Log("Slot temizlendi.");
     }
 }
