@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
         {
             slotImage.sprite = sr.sprite;
            slotImage.color = Color.white;
+           
         }
 
         heldItem = item;

@@ -16,7 +16,9 @@ public class StandSlot : MonoBehaviour
         if (item == null) return;
 
         item.transform.SetParent(null);
-        item.transform.position = transform.position;
+      //  item.transform.position = transform.position;
+      //  item.GetComponent<SpriteRenderer>().enabled = true;
+      transform.GetChild(0).gameObject.SetActive(true);
         isOccupied = true;
         currentItem = item;
 

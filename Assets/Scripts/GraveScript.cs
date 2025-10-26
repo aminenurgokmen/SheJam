@@ -81,7 +81,7 @@ public class GraveScript : MonoBehaviour
     {
         hiddenObject.transform.SetParent(player);
         hiddenObject.transform.localPosition = new Vector3(0f, -.6f, 0);
-
+        hiddenObject.GetComponent<SpriteRenderer>().enabled = false;
         GameManager.instance.AddToSlot(hiddenObject);
         hiddenObject = null; // mezardaki referans sıfırlanır
     }
