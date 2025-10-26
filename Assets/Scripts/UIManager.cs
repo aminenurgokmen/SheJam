@@ -17,8 +17,8 @@ public class UIManager : MonoBehaviour
         "The hands.. How could I have done the healing touches if it weren't for my hands. ",
         "My arms are a burden and my legs are failing me. I got no life inside me anymore. My body... rotting there in silence",
         "Without my legs, I cannot walk… not in this world, nor in dreams.",
-        "My head… my memories were buried with it beneath the earth. Bring it back, Oshai I want to remember who I am.",
-        "Without my eyes, all I saw was darkness.Now I want to see, Oshai... the world, you… and the truth.",
+        "My head… my memories were buried with it beneath the earth. Bring it back, Yareth I want to remember who I am.",
+        "Without my eyes, all I saw was darkness.Now I want to see, Yareth... the world, you… and the truth.",
         "Thank you darling!"
     };
 

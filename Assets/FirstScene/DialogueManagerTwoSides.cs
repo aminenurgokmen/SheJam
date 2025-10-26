@@ -36,6 +36,9 @@ public class DialogueManagerTwoSides : MonoBehaviour
     TMP_Text activeName, activeBody;
     GameObject activeBox, activeContinue;
 
+    public GameObject torch;
+    public GameObject activeTorch;
+
     void Start()
     {
         if (leftBox) leftBox.SetActive(false);
@@ -68,6 +71,12 @@ public class DialogueManagerTwoSides : MonoBehaviour
             if (isTyping) FinishTypingInstant();
             else NextLine();
             GetComponent<AudioSource>().Play();
+        }
+
+        if (index == 6)
+        {
+            torch.SetActive(false);
+            activeTorch.SetActive(true);
         }
     }
 
