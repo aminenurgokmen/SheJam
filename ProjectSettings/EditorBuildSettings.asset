@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: b5f598f7b50590f499ac9e97bec11243
   - enabled: 1
-    path: Assets/FirstScene/baslangic.unity
+    path: Assets/Scenes/baslangic.unity
     guid: 4c1da266844524f4c9b2348e293628c9
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
