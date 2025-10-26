@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement; // 🎬 Sahne geçişi için eklendi
 
 public class DialogueManagerTwoSides : MonoBehaviour
 {
@@ -20,11 +21,13 @@ public class DialogueManagerTwoSides : MonoBehaviour
     [Header("Ayarlar")]
     public KeyCode advanceKey = KeyCode.Space;
     public float charsPerSecond = 45f;
-    public float startDelay = 3f; // 💡 3 saniye bekleme süresi
+    public float startDelay = 3f; // 💬 İlk diyalog gecikmesi
+    float endSceneDelay = 1f; // 🎬 Son sahne geçiş gecikmesi
 
     [Header("İçerik")]
     public List<DialogueEntry> lines = new List<DialogueEntry>();
-
+    public string nextSceneName = "MainScene"; // 💡 Hedef sahne ismi (Inspector'dan ayarlanabilir)
+    public GameObject cam;
     int index = -1;
     bool isTyping = false;
     string currentFullText = "";
@@ -35,13 +38,11 @@ public class DialogueManagerTwoSides : MonoBehaviour
 
     void Start()
     {
-        // Başlangıçta her şeyi kapat
         if (leftBox) leftBox.SetActive(false);
         if (rightBox) rightBox.SetActive(false);
         if (leftContinueIcon) leftContinueIcon.SetActive(false);
         if (rightContinueIcon) rightContinueIcon.SetActive(false);
 
-        // 💬 Diyaloglar varsa 3 saniye sonra başlat
         if (lines != null && lines.Count > 0)
             StartCoroutine(DelayedStartDialogue());
     }
@@ -77,7 +78,8 @@ public class DialogueManagerTwoSides : MonoBehaviour
         index++;
         if (index >= lines.Count)
         {
-            EndDialogue();
+            // 🎬 Diyalog bittiğinde sahne geçişini başlat
+            StartCoroutine(EndDialogueAndChangeScene());
             return;
         }
 
@@ -144,9 +146,15 @@ public class DialogueManagerTwoSides : MonoBehaviour
         if (activeContinue) activeContinue.SetActive(true);
     }
 
-    void EndDialogue()
+    IEnumerator EndDialogueAndChangeScene()
     {
         leftBox.SetActive(false);
         rightBox.SetActive(false);
+        cam.GetComponent<Animator>().SetTrigger("Viynet");
+
+        Debug.Log("Diyalog bitti, sahne değişimi başlıyor...");
+        yield return new WaitForSeconds(endSceneDelay);
+        SceneManager.LoadScene(2);
+
     }
 }
