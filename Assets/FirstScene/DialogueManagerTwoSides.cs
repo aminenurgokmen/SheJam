@@ -101,7 +101,7 @@ public class DialogueManagerTwoSides : MonoBehaviour
         }
 
         // ✅ Son satıra gelmeden bir önceki satırda "Zoom" animasyonu tetiklensin
-        if (index == lines.Count - 1 && cam != null)
+        if (index == lines.Count - 1 && cam != null && currentSceneIndex == 3)
         {
             cam.GetComponent<Animator>().SetTrigger("zoom");
         }
