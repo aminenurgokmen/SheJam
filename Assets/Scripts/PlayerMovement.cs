@@ -1,6 +1,4 @@
 using UnityEngine;
-
-
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement instance;
@@ -14,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     {
         instance = this;
         rb = GetComponent<Rigidbody2D>();
-        //animator = GetComponent<Animator>();
+
     }
 
     private void Update()
@@ -39,9 +37,19 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 180, 0);
         }
 
-        // 🔹 Animator parametrelerini güncelle
-        bool isWalking = movement.magnitude > 0.1f;
-        animator.SetBool("isWalking", isWalking);
+        // 🔹 Animasyon kontrolü
+        if (movement.x != 0)
+        {
+            animator.Play("Side"); // A veya D basılıysa
+        }
+        else if (movement.y != 0)
+        {
+            animator.Play("Walk"); // W veya S basılıysa
+        }
+        else
+        {
+            animator.Play("Idle"); // Hiçbir tuş basılı değilse
+        }
     }
 
     private void FixedUpdate()
