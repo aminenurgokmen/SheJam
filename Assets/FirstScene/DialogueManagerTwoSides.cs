@@ -67,6 +67,7 @@ public class DialogueManagerTwoSides : MonoBehaviour
         {
             if (isTyping) FinishTypingInstant();
             else NextLine();
+            GetComponent<AudioSource>().Play();
         }
     }
 

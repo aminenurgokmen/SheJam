@@ -71,6 +71,8 @@ public class StandScript : MonoBehaviour
                 if (success)
                 {
                     puff.Play();
+                    GetComponent<AudioSource>().Play();
+
                     targetSlot.PlaceItem(heldItem);
                     GameManager.instance.ClearSlot();
                     UIManager.instance.NextDialog();
@@ -80,6 +82,7 @@ public class StandScript : MonoBehaviour
                         Debug.Log("🎉 Tüm parçalar yerleştirildi!");
                         if (completeEffect != null)
                             completeEffect.Play();
+                        GetComponentInChildren<AudioSource>().Play();
                     }
                 }
                 else
